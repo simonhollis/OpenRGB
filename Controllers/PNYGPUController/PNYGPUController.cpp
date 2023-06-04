@@ -67,14 +67,75 @@ void PNYGPUController::SetOff()
 
 void PNYGPUController::SetCycle(unsigned char speed)
 {
-    u8 loop[] = {
-        0x01,  // Direction
-        0x00,  // ??
-        speed, // Speed
-        0x1F   // Somehow related to speed
+    // u8 loop[] = {
+    //     0x01,  // Direction
+    //     0x00,  // ??
+    //     speed, // Speed
+    //     0x1F   // Somehow related to speed
+    // };
+    // loop[2] = speed;
+    u8 seq1[] = {  // 0x82 mode register e.g. off = all 0s
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00
     };
-    loop[2] = speed;
-    WriteI2CData(PNY_GPU_REG_CONTROL, sizeof(loop), loop);
+    u8 seq2[] = {
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00
+    };
+    u8 seq3[] = {
+        0x01,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00
+    };
+    u8 seq4[] = {
+        0x02,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00
+    };
+    u8 seq5[] = {  // 0x02 color register e.g. off is all-zeros
+        0x03,
+        0xff,
+        0x00,
+        0x00,
+        0xaa,
+        0x00,
+        0x00
+    };
+    u8 seq6[] = {  // 0x03 always same - 'commit'?
+        0x11,
+        0x33,
+        0x55,
+        0x77,
+        0xaa,
+        0xcc,
+        0xee
+    };
+
+    WriteI2CData(0x82, sizeof(seq1), seq1);
+    WriteI2CData(0x83, sizeof(seq2), seq2);
+    WriteI2CData(0x83, sizeof(seq3), seq3);
+    WriteI2CData(0x83, sizeof(seq4), seq4);
+    WriteI2CData(0x02, sizeof(seq5), seq5);
+    WriteI2CData(0x03, sizeof(seq6), seq6);
+
 }
 
 void PNYGPUController::SetStrobe(unsigned char r, unsigned char g, unsigned char b, unsigned char speed, unsigned char brightness)

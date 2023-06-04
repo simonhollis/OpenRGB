@@ -22,6 +22,12 @@ enum
     PNY_GPU_REG_COLOR_GREEN             = 0x6D,
     PNY_GPU_REG_COLOR_BLUE              = 0x6E,
     PNY_GPU_REG_COLOR_BRIGHTNESS        = 0x6F,
+    PNY_ADA_GPU_REG_CONTROL                 = 0x82,
+    PNY_ADA_GPU_REG_MODE                    = 0x83,
+    PNY_ADA_GPU_REG_COLOR_RED               = 0x6C,
+    PNY_ADA_GPU_REG_COLOR_GREEN             = 0x6D,
+    PNY_ADA_GPU_REG_COLOR_BLUE              = 0x6E,
+    PNY_ADA_GPU_REG_COLOR_BRIGHTNESS        = 0x6F,
 };
 
 enum
